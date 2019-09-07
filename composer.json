@@ -1,0 +1,22 @@
+{
+    "name": "nztim/mailer2",
+    "description": "Mail package for Laravel",
+    "license": "MIT",
+    "require": {
+        "php": "^7.2",
+        "pelago/emogrifier": "^2.2",
+        "soundasleep/html2text": "^1.1",
+        "swiftmailer/swiftmailer": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "NZTim\\Mailer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tim",
+            "email": "tim@nztim.com"
+        }
+    ]
+}
