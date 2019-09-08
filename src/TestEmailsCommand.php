@@ -4,6 +4,7 @@ namespace NZTim\Mailer;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use NZTim\CommandBus\CommandBus;
 
 abstract class TestEmailsCommand extends Command
 {
@@ -25,7 +26,7 @@ abstract class TestEmailsCommand extends Command
             $message = array_get($this->tests, $selection);
             $this->info('Sending: ' . $message->testLabel());
             $message->recipientOverride = $this->recipient;
-            app(Mailer::class)->send($message);
+            $this->passToHandler($message);
             $this->info('Done');
             return 0;
         }
@@ -80,8 +81,17 @@ abstract class TestEmailsCommand extends Command
         foreach ($this->tests as $message) {
             $this->info('Sending: ' . $message->testLabel());
             $message->recipientOverride = $this->recipient;
-            app(Mailer::class)->send($message);
+            $this->passToHandler($message);
             $this->info('Done');
         }
+    }
+
+    private function passToHandler(AbstractMessage $message): void
+    {
+        if (class_exists(CommandBus::class)) {
+            app(CommandBus::class)->handle($message);
+            return;
+        }
+        app(DefaultMessageHandler::class)->handle($message);
     }
 }
