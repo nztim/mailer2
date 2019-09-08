@@ -24,8 +24,8 @@ abstract class TestEmailsCommand extends Command
             /** @var AbstractMessage $message */
             $message = array_get($this->tests, $selection);
             $this->info('Sending: ' . $message->testLabel());
-            $message->recipientOverride($this->recipient);
-            app(MessageHandler::class)->handle($message);
+            $message->recipientOverride = $this->recipient;
+            app(Mailer::class)->send($message);
             $this->info('Done');
             return 0;
         }
@@ -79,8 +79,8 @@ abstract class TestEmailsCommand extends Command
     {
         foreach ($this->tests as $message) {
             $this->info('Sending: ' . $message->testLabel());
-            $message->recipientOverride($this->recipient);
-            app(MessageHandler::class)->handle($message);
+            $message->recipientOverride = $this->recipient;
+            app(Mailer::class)->send($message);
             $this->info('Done');
         }
     }

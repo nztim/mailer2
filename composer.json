@@ -4,6 +4,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "beberlei/assert": "^3.2",
         "pelago/emogrifier": "^2.2",
         "soundasleep/html2text": "^1.1"
     },
