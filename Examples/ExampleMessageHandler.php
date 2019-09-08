@@ -13,9 +13,8 @@ class ExampleMessageHandler
 
     public function handle(ExampleMessage $message)
     {
-        // If you need to reconstitute models from IDs, use the database, etc. - do that here
+        // If you need to reconstitute models from IDs - do that here
         // If you only need to send the message then you can use the DefaultMessageHandler
-        // Reconstitute models from IDs, etc.
         $this->mailer->send($message);
     }
 }
