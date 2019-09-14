@@ -9,11 +9,16 @@ use NZTim\CommandBus\CommandBus;
 abstract class TestEmailsCommand extends Command
 {
     protected $signature = 'testemails {recipient?}';
+
     protected $description = 'Send test emails';
 
     protected $recipient = 'test@example.org';
+
     /** @var AbstractMessage[] */
-    protected $tests = [];
+    protected $tests;
+
+    /** @return string[]|array - list of test class names */
+    abstract protected function tests(): array;
 
     public function handle(): int
     {
@@ -51,7 +56,7 @@ abstract class TestEmailsCommand extends Command
     protected function setTests()
     {
         /** @var Collection $tests */
-        $tests = collect($this->tests);
+        $tests = collect($this->tests());
         $tests = $tests->map(function (string $className) {
             /** @noinspection PhpUndefinedMethodInspection */
             return $className::test();
@@ -65,10 +70,7 @@ abstract class TestEmailsCommand extends Command
         $this->tests = $tests->toArray();
     }
 
-    /**
-     * @return mixed
-     */
-    protected function menu()
+    protected function menu(): string
     {
         foreach ($this->tests as $key => $test) {
             $this->info($key . ') ' . $test->testLabel());
@@ -88,10 +90,7 @@ abstract class TestEmailsCommand extends Command
 
     private function passToHandler(AbstractMessage $message): void
     {
-        if (class_exists(CommandBus::class)) {
-            app(CommandBus::class)->handle($message);
-            return;
-        }
-        app(DefaultMessageHandler::class)->handle($message);
+        app(CommandBus::class)->handle($message);
+        return;
     }
 }

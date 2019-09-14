@@ -1,5 +1,7 @@
 <?php
 
+namespace NZTim\Mailer\Examples;
+
 use NZTim\Mailer\AbstractMessage;
 
 class ExampleMessage extends AbstractMessage

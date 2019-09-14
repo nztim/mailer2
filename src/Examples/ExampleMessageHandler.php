@@ -1,5 +1,7 @@
 <?php
 
+namespace NZTim\Mailer\Examples;
+
 use NZTim\Mailer\Mailer;
 
 class ExampleMessageHandler
