@@ -15,7 +15,7 @@ abstract class TestEmailsCommand extends Command
     protected $recipient = 'test@example.org';
 
     /** @var AbstractMessage[] */
-    protected $tests;
+    protected $tests = [];
 
     /** @return string[]|array - list of test class names */
     abstract protected function tests(): array;
