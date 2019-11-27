@@ -2,25 +2,19 @@
 
 namespace NZTim\Mailer;
 
-use Pelago\Emogrifier;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class CssInliner
 {
-    /** @var Emogrifier */
-    protected static $instance;
+    private $csstoinline;
 
-    protected static function instance() : Emogrifier
+    public function __construct(CssToInlineStyles $csstoinline)
     {
-        if (is_null(static::$instance)) {
-            static::$instance = app(Emogrifier::class);
-        }
-        return static::$instance;
+        $this->csstoinline = $csstoinline;
     }
 
-    public static function process(string $html) : string
+    public function process(string $html): string
     {
-        $emogrifier = static::instance();
-        $emogrifier->setHtml($html);
-        return $emogrifier->emogrify();
+        return $this->csstoinline->convert($html);
     }
 }

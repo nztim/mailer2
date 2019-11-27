@@ -13,18 +13,20 @@ class Mailer
 {
     private $laravelMailer;
     private $dispatcher;
+    private $cssInliner;
 
-    public function __construct(LaravelMailer $laravelMailer, Dispatcher $dispatcher)
+    public function __construct(LaravelMailer $laravelMailer, Dispatcher $dispatcher, CssInliner $cssInliner)
     {
         $this->laravelMailer = $laravelMailer;
         $this->dispatcher = $dispatcher;
+        $this->cssInliner = $cssInliner;
     }
 
     public function send(AbstractMessage $message): ?MessageSent
     {
         $this->validate($message);
         $data = array_merge($message->data, ['nztmailerSubject' => $message->subject]);
-        $html = CssInliner::process(view($message->view)->with($data)->render());
+        $html = $this->cssInliner->process(view($message->view)->with($data)->render());
         $text = Html2Text::convert($html);
         $data = array_merge($data, ['nztmailerHtml' => $html, 'nztmailerText' => $text]);
         $this->laravelMailer->send(['nztmailer::echo-html', 'nztmailer::echo-text'], $data, function ($email) use ($message) {
