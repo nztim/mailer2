@@ -6,7 +6,7 @@ use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class CssInliner
 {
-    private $csstoinline;
+    private CssToInlineStyles $csstoinline;
 
     public function __construct(CssToInlineStyles $csstoinline)
     {

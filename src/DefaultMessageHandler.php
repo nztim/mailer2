@@ -4,7 +4,7 @@ namespace NZTim\Mailer;
 
 class DefaultMessageHandler
 {
-    private $mailer;
+    private Mailer $mailer;
 
     public function __construct(Mailer $mailer)
     {

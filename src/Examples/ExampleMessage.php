@@ -6,11 +6,11 @@ use NZTim\Mailer\AbstractMessage;
 
 class ExampleMessage extends AbstractMessage
 {
-    public $sender;
-    public $recipient;
-    public $subject;
-    public $view;
-    public $data = [];
+    public string $sender;
+    public string $recipient;
+    public string $subject;
+    public string $view;
+    public array $data = [];
 
     public function __construct(string $name, string $email, string $message)
     {
@@ -25,8 +25,7 @@ class ExampleMessage extends AbstractMessage
         $this->view = 'emails.contact';
     }
 
-    /** In PHP 7.4 you can return ExampleMessage (covariant) */
-    public static function test(): AbstractMessage
+    public static function test(): ExampleMessage
     {
         return new ExampleMessage('Barry White', 'barry@example.org', 'This is a message');
     }

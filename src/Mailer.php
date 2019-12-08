@@ -11,9 +11,9 @@ use Soundasleep\Html2Text;
 
 class Mailer
 {
-    private $laravelMailer;
-    private $dispatcher;
-    private $cssInliner;
+    private LaravelMailer $laravelMailer;
+    private Dispatcher $dispatcher;
+    private CssInliner $cssInliner;
 
     public function __construct(LaravelMailer $laravelMailer, Dispatcher $dispatcher, CssInliner $cssInliner)
     {

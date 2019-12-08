@@ -1,20 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace NZTim\Mailer;
 
 abstract class AbstractMessage
 {
-    public $sender;
-    public $recipient;
-    public $subject;
-    public $view;
-    public $senderName = null;
-    public $replyTo = null;
-    public $recipientOverride = null;
-    public $cc = null;
-    public $bcc = null;
-    public $data = [];
+    public string $sender;
+    public string $recipient;
+    public string $subject;
+    public string $view;
+    public ?string $senderName = null;
+    public ?string $replyTo = null;
+    public ?string $recipientOverride = null;
+    public ?string $cc = null;
+    public ?string $bcc = null;
+    public array $data = [];
 
     abstract public static function test(): AbstractMessage;
+
     abstract public function testLabel(): string;
 }

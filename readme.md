@@ -24,3 +24,6 @@
     * The recipient will be overridden and cc/bcc instructions will be ignored
     * No `MessageSent` event will be fired for tests
 
+### Updating
+
+* 3.0: Requires PHP 7.4. AbstractMessage now has typed properties, and it's test() method can now return the subclass (covariance).

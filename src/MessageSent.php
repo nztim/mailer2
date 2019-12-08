@@ -6,16 +6,16 @@ use Carbon\Carbon;
 
 class MessageSent
 {
-    protected $date;
-    protected $sender;
-    protected $senderName;
-    protected $replyTo;
-    protected $recipient;
-    protected $cc;
-    protected $bcc;
-    protected $subject;
-    protected $html;
-    protected $text;
+    private Carbon $date;
+    private string $sender;
+    private string $senderName;
+    private string $replyTo;
+    private string $recipient;
+    private string $cc;
+    private string $bcc;
+    private string $subject;
+    private string $html;
+    private string $text;
 
     public function __construct(array $data)
     {
