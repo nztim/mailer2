@@ -26,4 +26,5 @@
 
 ### Updating
 
+* 4.0: The sender property of AbstractMessage is now optional (nullable), the default configured in `mail.php` will be used if no sender provided. 
 * 3.0: Requires PHP 7.4. AbstractMessage now has typed properties, and it's test() method can now return the subclass (covariance).
