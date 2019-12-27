@@ -33,7 +33,9 @@ class Mailer
             /** @var LaravelEmail $email */
             $email->subject($message->subject);
             $email->to($message->recipientOverride ?: $message->recipient);
-            $email->from($message->sender, $message->senderName);
+            if ($message->sender) {
+                $email->from($message->sender, $message->senderName);
+            }
             if ($message->replyTo) {
                 $email->replyTo($message->replyTo);
             }
@@ -64,10 +66,10 @@ class Mailer
 
     private function validate(AbstractMessage $message): void
     {
-        Assertion::email($message->sender, 'Sender not an email address');
         Assertion::email($message->recipient, 'Recipient not an email address');
         Assert::that($message->subject)->string('Subject is not a string')->notEmpty('Subject is empty');
         Assert::that($message->view)->string('View is not a string')->notEmpty('View is empty');
+        Assertion::nullOrEmail($message->sender, 'Sender invalid');
         Assertion::nullOrString($message->senderName, 'SenderName invalid');
         Assertion::nullOrEmail($message->replyTo, 'ReplyTo not an email address');
         Assertion::nullOrEmail($message->recipientOverride, 'recipientOverride not an email address');

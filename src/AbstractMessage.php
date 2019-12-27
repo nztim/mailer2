@@ -4,10 +4,10 @@ namespace NZTim\Mailer;
 
 abstract class AbstractMessage
 {
-    public string $sender;
     public string $recipient;
     public string $subject;
     public string $view;
+    public ?string $sender = null;
     public ?string $senderName = null;
     public ?string $replyTo = null;
     public ?string $recipientOverride = null;
