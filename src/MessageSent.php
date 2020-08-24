@@ -16,9 +16,11 @@ class MessageSent
     private string $subject;
     private string $html;
     private string $text;
+    private string $messageId;
 
     public function __construct(array $data)
     {
+        $this->date = now();
         $fields = [
             'sender',
             'senderName',
@@ -29,11 +31,11 @@ class MessageSent
             'subject',
             'html',
             'text',
+            'messageId',
         ];
         foreach ($fields as $field) {
             $this->$field = $data[$field] ?? '';
         }
-        $this->date = now();
     }
 
     public function date(): Carbon
@@ -86,10 +88,15 @@ class MessageSent
         return $this->text;
     }
 
+    public function messageId(): string
+    {
+        return $this->messageId;
+    }
+
     public function toArray(): array
     {
         return [
-            'date' => $this->date,
+            'date'       => $this->date,
             'sender'     => $this->sender(),
             'senderName' => $this->senderName(),
             'replyTo'    => $this->replyTo(),
@@ -99,6 +106,7 @@ class MessageSent
             'subject'    => $this->subject(),
             'html'       => $this->html(),
             'text'       => $this->text(),
+            'messageId'  => $this->messageId(),
         ];
     }
 }

@@ -29,6 +29,7 @@ class Mailer
         $html = $this->cssInliner->process(view($message->view)->with($data)->render());
         $text = Html2Text::convert($html);
         $data = array_merge($data, ['nztmailerHtml' => $html, 'nztmailerText' => $text]);
+        $message->messageId = time() . '.' . bin2hex(random_bytes(8)) . '@mailer2.example.org';
         $this->laravelMailer->send(['nztmailer::echo-html', 'nztmailer::echo-text'], $data, function ($email) use ($message) {
             /** @var LaravelEmail $email */
             $email->subject($message->subject);
@@ -45,6 +46,9 @@ class Mailer
             if ($message->bcc && !$message->recipientOverride) {
                 $email->bcc($message->bcc);
             }
+            $email->setId($message->messageId);
+            $headers = $email->getHeaders();
+            $headers->addTextHeader('X-Mailer2-ID', $message->messageId);
         });
         if ($message->recipientOverride) {
             return null;
@@ -59,6 +63,7 @@ class Mailer
             'subject'    => $message->subject,
             'html'       => $html,
             'text'       => $text,
+            'messageId'  => $message->messageId,
         ]);
         $this->dispatcher->dispatch($event);
         return $event;
@@ -78,3 +83,9 @@ class Mailer
         Assertion::isArray($message->data, 'Data not an array');
     }
 }
+
+/*
+ * Whether you let SwiftMailer set the Message-ID header or you set it yourself, it's replaced by the sender so it doesn't make it through to the recipient.
+ * However the SES delivery notification includes it as a header value, so messages can be tracked that way.
+ * A custom header (X-Mailer2-ID) will go all the way to the recipient and and should be included in notifications from all kinds of senders.
+ */

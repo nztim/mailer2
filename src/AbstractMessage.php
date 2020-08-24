@@ -14,6 +14,7 @@ abstract class AbstractMessage
     public ?string $cc = null;
     public ?string $bcc = null;
     public array $data = [];
+    public string $messageId = ''; // SwiftMailer message id, set during sending process
 
     abstract public static function test(): AbstractMessage;
 
