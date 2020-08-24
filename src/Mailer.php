@@ -22,6 +22,8 @@ class Mailer
         $this->cssInliner = $cssInliner;
     }
 
+    public const ID_HEADER = 'X-Mailer2-ID';
+
     public function send(AbstractMessage $message): ?MessageSent
     {
         $this->validate($message);
@@ -48,7 +50,7 @@ class Mailer
             }
             $email->setId($message->messageId);
             $headers = $email->getHeaders();
-            $headers->addTextHeader('X-Mailer2-ID', $message->messageId);
+            $headers->addTextHeader(Mailer::ID_HEADER, $message->messageId);
         });
         if ($message->recipientOverride) {
             return null;
