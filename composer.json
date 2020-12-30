@@ -3,7 +3,7 @@
     "description": "Mail package for Laravel",
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.0",
         "beberlei/assert": "^3.2",
         "nztim/commandbus": "^3.0",
         "soundasleep/html2text": "^1.1",
