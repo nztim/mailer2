@@ -5,8 +5,8 @@
     "require": {
         "php": "^7.4|^8.0",
         "beberlei/assert": "^3.2",
+        "league/html-to-markdown": "^4.10",
         "nztim/commandbus": "^3.0",
-        "soundasleep/html2text": "^1.1",
         "tijsverkoyen/css-to-inline-styles": "^2.2.2"
     },
     "autoload": {

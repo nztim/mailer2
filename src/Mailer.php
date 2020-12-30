@@ -7,19 +7,20 @@ use Assert\Assertion;
 use Illuminate\Contracts\Mail\Mailer as LaravelMailer;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Mail\Message as LaravelEmail;
-use Soundasleep\Html2Text;
 
 class Mailer
 {
     private LaravelMailer $laravelMailer;
     private Dispatcher $dispatcher;
     private CssInliner $cssInliner;
+    private HtmlConverter $converter;
 
-    public function __construct(LaravelMailer $laravelMailer, Dispatcher $dispatcher, CssInliner $cssInliner)
+    public function __construct(LaravelMailer $laravelMailer, Dispatcher $dispatcher, CssInliner $cssInliner, HtmlConverter $converter)
     {
         $this->laravelMailer = $laravelMailer;
         $this->dispatcher = $dispatcher;
         $this->cssInliner = $cssInliner;
+        $this->converter = $converter;
     }
 
     public const ID_HEADER = 'X-Mailer2-ID';
@@ -29,7 +30,7 @@ class Mailer
         $this->validate($message);
         $data = array_merge($message->data, ['nztmailerSubject' => $message->subject]);
         $html = $this->cssInliner->process(view($message->view)->with($data)->render());
-        $text = Html2Text::convert($html);
+        $text = $this->converter->convert($html);
         $data = array_merge($data, ['nztmailerHtml' => $html, 'nztmailerText' => $text]);
         $message->messageId = time() . '.' . bin2hex(random_bytes(8)) . '@mailer2.example.org';
         $this->laravelMailer->send(['nztmailer::echo-html', 'nztmailer::echo-text'], $data, function ($email) use ($message) {
